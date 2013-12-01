@@ -1,0 +1,8 @@
+
+class Direction{
+	int dir;
+	
+	Direction(int i){
+		dir = i;
+	}
+}
