@@ -6,3 +6,4 @@ class Direction{
 		dir = i;
 	}
 }
+//cou-cou
