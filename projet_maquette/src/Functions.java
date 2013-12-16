@@ -3,7 +3,7 @@ import java.util.LinkedList;
 /**
  * Created by roma on 16/12/2013.
  */
-public class Functions {
+public class Functions { // a mettre ou tu veux...
 	public LinkedList<Vect> VectorGroups (double[][] champ) {
 		LinkedList<Vect> result = new LinkedList<Vect>();
 
