@@ -1,3 +1,5 @@
+import net.sf.javaml.core.kdtree.KDTree;
+
 import java.util.LinkedList;
 
 //++  Cette classe représente l'environnement dans lequel évolue le fluide. ++//
@@ -16,7 +18,7 @@ public class Env {
 	Voxel[][] grille;                                                    //le cadrillage representant l'espace, chaque voxel etant une case, possedant des propriétés propres.
 	Vect[][] grille_isosurf;                                             //grille sur laquelle sera calculée la surface du fluide ( plus de precision)
 	static LinkedList<Particule> liste_particules;                       //liste des particules présentes dans la simulation, utile pour calculer l'évolution de leurs positions.
-	
+	KDTree kdTree;
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// Constructeur
@@ -56,5 +58,39 @@ public class Env {
 		return h*p_sub_res;
 	}
 	//------------------------------------------------------------------------------
-	
+
+	public void ConstructKdTree() { // creates a two-dimensional search tree of the particle list
+		kdTree = new KDTree(2);
+		for (Particule particule : liste_particules)
+			AddParticleToKdTree(particule);
+	}
+	public void AddParticleToKdTree(Particule particule) {
+		kdTree.insert(particule.position.ToArray(), particule);
+	}
+	public void DeleteParticleFromKdTree(Particule particule) {
+		kdTree.delete(particule.position.ToArray());
+	}
+	public Particule NearestParticle(double[] coordinates) {
+		return (Particule) kdTree.nearest(coordinates);
+	}
+	public Particule NearestParticle(Particule particule) {
+		return (Particule) kdTree.nearest(particule.position.ToArray());
+	}
+	public Particule NearestParticle(Vect vect) {
+		return (Particule) kdTree.nearest(vect.ToArray());
+	}
+	public double phi(double[] coordinates) {
+		Particule nearestParticle = NearestParticle(coordinates);
+		double[] nearestCooridnates = nearestParticle.position.ToArray();
+		return Math.sqrt((nearestCooridnates[0] - coordinates[0]) * (nearestCooridnates[0] - coordinates[0]) + (nearestCooridnates[1] - coordinates[1]) * (nearestCooridnates[1] - coordinates[1]));
+	}
+	public double phi(Particule particule) {
+		Particule nearestParticle = NearestParticle(particule);
+		return nearestParticle.position.distance(particule.position);
+	}
+	public double phi(Vect vect) {
+		Particule nearestParticle = NearestParticle(vect);
+		return nearestParticle.position.distance(vect);
+	}
+
 }

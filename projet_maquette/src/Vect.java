@@ -22,5 +22,7 @@ public class Vect {
 		return Math.sqrt((V.x-this.x)*(V.x-this.x) + (V.y-this.y)*(V.y-this.y));
 	}
 	//----------------------------------------
-	
+	double[] ToArray() {
+		return new double[]{x, y};
+	}
 }
