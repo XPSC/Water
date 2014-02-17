@@ -15,23 +15,15 @@ public class Env {
 	static int p_sub_res = 6;                                                //ratio donnant la resolution de l'isocontour (surface du fluide), qui est plus précise.
 	static int l = 150;                                                        //largeur de l'espace de simulation
 	static int h = 300;                                                        //hauteur de l'espace de simulation
-	Voxel[][] grille;                                                    //le cadrillage representant l'espace, chaque voxel etant une case, possedant des propriétés propres.
-	Vect[][] grille_isosurf;                                             //grille sur laquelle sera calculée la surface du fluide ( plus de precision)
+	static Voxel[][] grille = new Voxel[h][l];                                                    //le cadrillage representant l'espace, chaque voxel etant une case, possedant des propriétés propres.
+	static Vect[][] grille_isosurf = new Vect[l*p_sub_res][h*p_sub_res];                                             //grille sur laquelle sera calculée la surface du fluide ( plus de precision)
 	static LinkedList<Particule> liste_particules;                       //liste des particules présentes dans la simulation, utile pour calculer l'évolution de leurs positions.
-	KDTree kdTree;
-	
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// Constructeur
-	Env(double t, double res, int p_sub_res, int l, int h){
-		
-		this.grille = new Voxel[h][l];
-		this.grille_isosurf = new Vect[l*p_sub_res][h*p_sub_res];
-	}
-	//------------------------------------------------------------------------------
+	static KDTree kdTree;
+
 	
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//retourne la hauteur (physique) de l'espace de simulation
-	double hauteur(){
+	static double hauteur(){
 		return res*((double) h);
 	}
 	//------------------------------------------------------------------------------
@@ -40,57 +32,56 @@ public class Env {
 	
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//retourne la largeur (physique) de l'espace de simulation
-	double largeur(){  
+	static double largeur(){
 		return res*((double) h);
 	}
 	//------------------------------------------------------------------------------
 	
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//retourne le nombre de cases en largeur de la grille sur laquelle est calculée la surface du fluide.
-	double l_iso(){
+	static double l_iso(){
 		return l*p_sub_res;
 	}
 	//------------------------------------------------------------------------------
 	
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//retourne le nombre de cases en largeur de la grille sur laquelle est calculée la surface du fluide.
-	double h_iso(){
+	static double h_iso(){
 		return h*p_sub_res;
 	}
 	//------------------------------------------------------------------------------
 
-	public void ConstructKdTree() { // creates a two-dimensional search tree of the particle list
+	public static void ConstructKdTree() { // creates a two-dimensional search tree of the particle list
 		kdTree = new KDTree(2);
 		for (Particule particule : liste_particules)
 			AddParticleToKdTree(particule);
 	}
-	public void AddParticleToKdTree(Particule particule) {
+	public static void AddParticleToKdTree(Particule particule) {
 		kdTree.insert(particule.position.ToArray(), particule);
 	}
-	public void DeleteParticleFromKdTree(Particule particule) {
+	public static void DeleteParticleFromKdTree(Particule particule) {
 		kdTree.delete(particule.position.ToArray());
 	}
-	public Particule NearestParticle(double[] coordinates) {
+	public static Particule NearestParticle(double[] coordinates) {
 		return (Particule) kdTree.nearest(coordinates);
 	}
-	public Particule NearestParticle(Particule particule) {
+	public static Particule NearestParticle(Particule particule) {
 		return (Particule) kdTree.nearest(particule.position.ToArray());
 	}
-	public Particule NearestParticle(Vect vect) {
+	public static Particule NearestParticle(Vect vect) {
 		return (Particule) kdTree.nearest(vect.ToArray());
 	}
-	public double phi(double[] coordinates) {
+	public static double phi(double[] coordinates) {
 		Particule nearestParticle = NearestParticle(coordinates);
-		double[] nearestCooridnates = nearestParticle.position.ToArray();
-		return Math.sqrt((nearestCooridnates[0] - coordinates[0]) * (nearestCooridnates[0] - coordinates[0]) + (nearestCooridnates[1] - coordinates[1]) * (nearestCooridnates[1] - coordinates[1]));
+		double[] nearestCoordinates = nearestParticle.position.ToArray();
+		return Math.sqrt((nearestCoordinates[0] - coordinates[0]) * (nearestCoordinates[0] - coordinates[0]) + (nearestCoordinates[1] - coordinates[1]) * (nearestCoordinates[1] - coordinates[1]));
 	}
-	public double phi(Particule particule) {
+	public static double phi(Particule particule) {
 		Particule nearestParticle = NearestParticle(particule);
 		return nearestParticle.position.distance(particule.position);
 	}
-	public double phi(Vect vect) {
+	public static double phi(Vect vect) {
 		Particule nearestParticle = NearestParticle(vect);
 		return nearestParticle.position.distance(vect);
 	}
-
 }
