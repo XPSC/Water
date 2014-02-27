@@ -87,7 +87,7 @@ public class Particule {
      * @return 
      */
     public double semiReflexion(double a){
-    	if (a<0) return (-a);
+    	if (a<0.) return (-a);
       return a;
     }
     public void update(){
@@ -96,7 +96,14 @@ public class Particule {
         position.x += (double)(getVitesseU()*a);
         position.y += (double)(getVitesseV()*a);
         
+
+        
         // if (x, y) outside, we do a reflexion
+        
+        //correction
+        position.x -= 3;
+        position.y -= 3;
+        
         position.x = semiReflexion(position.x);
         position.y = semiReflexion(position.y);
         
@@ -108,6 +115,9 @@ public class Particule {
         
         position.x = Env.width()*Env.p_sub_res - 1 - position.x;
         position.y = Env.height()*Env.p_sub_res - 1 - position.y;
+        
+        position.x += 3;
+        position.y += 3;
         
         x = (int) Math.floor(position.x);
         y = (int) Math.floor(position.y);
