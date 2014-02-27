@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import diewald_fluid.Fluid2D;
 
 //++  Cette classe représente l'environnement dans lequel évolue le fluide. ++//
@@ -17,7 +16,6 @@ public class Env {
 	private static int h = 100;                                                        //hauteur de l'espace de simulation
 	static Voxel[][] grille = new Voxel[h][l];                                                    //le cadrillage representant l'espace, chaque voxel etant une case, possedant des propriétés propres.
 	static Vect[][] grille_isosurf = new Vect[l*p_sub_res][h*p_sub_res];                                             //grille sur laquelle sera calculée la surface du fluide ( plus de precision)
-	static LinkedList<Particule> liste_particules;                       //liste des particules présentes dans la simulation, utile pour calculer l'évolution de leurs positions.
 	static float[] dens_field;
 	static float[] velocity_fieldU;
 	static float[] velocity_fieldV;

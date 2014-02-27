@@ -2,6 +2,7 @@ import net.sf.javaml.core.kdtree.KDTree;
 
 public class MyKDTree {
 	// Problem? : use of double numbers
+
 	static KDTree kdTree;
 		
 	/*
@@ -11,7 +12,9 @@ public class MyKDTree {
 			AddParticleToKdTree(particule);
 	}
 	*/
-	
+	MyKDTree(){
+		kdTree = new KDTree(2);
+	}
 	public static void AddParticleToKdTree(Particule particule) {
 		kdTree.insert(particule.position.ToArray(), particule);
 	}
@@ -40,4 +43,5 @@ public class MyKDTree {
 		Particule nearestParticle = NearestParticle(vect);
 		return nearestParticle.position.distance(vect);
 	}
+	
 }

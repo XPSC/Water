@@ -7,8 +7,6 @@ import processing.core.PApplet;
 public class DEBUG_drawParticle extends PApplet {
   //created from fluid2d_basic_cpu
 
-	static LinkedList<Particule> liste_particules;  
-
 	int  fluid_size_x = Env.width(); 
 	int  fluid_size_y = Env.height();
 
@@ -20,10 +18,9 @@ public class DEBUG_drawParticle extends PApplet {
   
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setup() {
-		liste_particules = new LinkedList<Particule>();
-	  for(int i=0; i<fluid_size_x; i=i+10) {
+	for(int i=0; i<fluid_size_x; i=i+10) {
 		 for(int j=0; j<fluid_size_y; j=j+10){
-		 liste_particules.add(new Particule(i*Env.p_sub_res, j*Env.p_sub_res));
+		 new Particule(i*Env.p_sub_res, j*Env.p_sub_res);
 		 }
 	  }
 		
@@ -58,7 +55,7 @@ public class DEBUG_drawParticle extends PApplet {
 	  //println(frameRate);
 	  Env.calcVelocityField();
 	  
-	  for (Particule particule : liste_particules){
+	  for (Particule particule : Particles.particles){
 	  particule.update();
 	  drawParticle(particule);
 	  }
@@ -160,7 +157,6 @@ if ( mode == 1) fluid2d.removeObject(x, y);
 
 //// Affiche croix
 public void drawCross(int a, int b){
-	stroke(255, 0, 0);
 	int x = a*cell_size;
 	int y = b*cell_size;
 	line(x-3, y, x+3, y);
@@ -169,6 +165,8 @@ public void drawCross(int a, int b){
 
 ////Affiche particule
 public void drawParticle(Particule particule){
+if(particule.isFree())
+	stroke(0, 0, 255);
 stroke(255, 0, 0);
 drawCross(particule.bigX(), particule.bigY());
 }

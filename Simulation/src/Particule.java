@@ -25,6 +25,8 @@ public class Particule {
     	this.x=x;
     	this.y = y;
     	position = new Vect((double)x, (double)y);
+    	// add to the particles list
+    	Particles.add(this);
     }
     
     public boolean isFree(){
