@@ -33,6 +33,7 @@ public class main extends PApplet {
 	public void draw() {
 	  background(255);
       Env.calcDensityField();
+      Env.calcVelocityField();
       float[] d = Env.getDensityField();
 	  for(int i=0; i< fluid_size_x; i++){
 		  for(int j=0; j< fluid_size_y; j++){
@@ -48,7 +49,7 @@ public class main extends PApplet {
 	  fluid.update();
 	  image(fluid.getDensityMap(), 0, 0, width, height);
 	  //println(frameRate);
-	  DrawCross(20, 20);
+	  drawCross(20, 20);
 	}
 
 
@@ -146,13 +147,20 @@ if ( mode == 1) fluid2d.removeObject(x, y);
 
 
 //// Affiche croix
-public void DrawCross(int a, int b){
+public void drawCross(int a, int b){
 	stroke(255, 0, 0);
 	int x = a*cell_size;
 	int y = b*cell_size;
 	line(x-3, y, x+3, y);
 	line(x, y-3, x, y+3);
 }
+
+////Affiche particule
+public void drawParticle(Particule particule){
+stroke(255, 0, 0);
+drawCross(particule.bigX(), particule.bigY());
+}
+
 
 
 }

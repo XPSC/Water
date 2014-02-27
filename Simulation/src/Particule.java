@@ -24,6 +24,7 @@ public class Particule {
     public Particule(int x, int y){
     	this.x=x;
     	this.y = y;
+    	position = new Vect((double)x, (double)y);
     }
     
     public boolean isFree(){
@@ -63,17 +64,52 @@ public class Particule {
     
     /**
      * 
-     * @return velocity of the particle
+     * @return velocity (vx) of the particle
      */
-    public float getVitesse(){
-    	return Env.getVelocityValue(bigX(), bigY());
+    public float getVitesseU(){
+    	return Env.getVelocityValueU(bigX(), bigY());
     }
+    
+    /**
+     * 
+     * @return velocity (vy) of the particle
+     */
+    public float getVitesseV(){
+    	return Env.getVelocityValueV(bigX(), bigY());
+    }
+    
+    // Problem? double ?
     
     /**
      * calculates the new position with the velocity value given by Diewald lib
      * @return 
      */
+    public double semiReflexion(double a){
+    	if (a<0) return (-a);
+      return a;
+    }
     public void update(){
+    	//float deltaT = Env.timeStep(); 
+    	float a =  Env.timeStep()*((float) Env.width()*Env.p_sub_res);
+        position.x += (double)(getVitesseU()*a);
+        position.y += (double)(getVitesseV()*a);
+        
+        // if (x, y) outside, we do a reflexion
+        position.x = semiReflexion(position.x);
+        position.y = semiReflexion(position.y);
+        
+        position.x = Env.width()*Env.p_sub_res - 1 - position.x;
+        position.y = Env.height()*Env.p_sub_res - 1 - position.y;
+        
+        position.x = semiReflexion(position.x);
+        position.y = semiReflexion(position.y);
+        
+        position.x = Env.width()*Env.p_sub_res - 1 - position.x;
+        position.y = Env.height()*Env.p_sub_res - 1 - position.y;
+        
+        x = (int) Math.floor(position.x);
+        y = (int) Math.floor(position.y);
+        
         
     }
     
