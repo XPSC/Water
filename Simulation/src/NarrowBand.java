@@ -10,6 +10,12 @@ public class NarrowBand {
     */
    public static void init(){
 	   narrowband = new boolean[Env.width()*Env.p_sub_res][Env.height()*Env.p_sub_res];
+	    for(int i = 0; i<Env.width()*Env.p_sub_res; i++){
+	    	for(int j = 0; j<Env.height()*Env.p_sub_res; j++){
+	    		NarrowBand.narrowband[i][j]=true;
+	    		}
+	    	}
    }
+   
    
 }

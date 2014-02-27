@@ -145,24 +145,36 @@ if ( mode == 1) fluid2d.removeObject(x, y);
 
 ///////// DEBUG
 
-
-//// Affiche croix
+////Affiche croix
 public void drawCross(int a, int b){
-	stroke(255, 0, 0);
-	int x = a*cell_size;
-	int y = b*cell_size;
-	line(x-3, y, x+3, y);
-	line(x, y-3, x, y+3);
+stroke(255, 0, 0);
+int x = a*Env.p_cellsize+Env.cellSize();
+int y = b*Env.p_cellsize+Env.cellSize();
+line(x-3, y, x+3, y);
+line(x, y-3, x, y+3);
 }
 
 ////Affiche particule
 public void drawParticle(Particule particule){
 stroke(255, 0, 0);
-drawCross(particule.bigX(), particule.bigY());
+drawCross(particule.x, particule.y);
 }
 
-//// Affiche un élément de la grille
 
+//// Affiche un élément de la grille (petite)
+public void drawCell(int x, int y){
+	int a = Math.round(Env.cellSize()/Env.p_sub_res);
+	//rect(a*x, a*y, a, a);
+	point(x*a+Env.cellSize(), y*a+Env.cellSize());
+}
 
-
+public void drawNarrowBand(){
+	stroke(0, 0, 255);
+    for(int i = 0; i<Env.width()*Env.p_sub_res; i++){
+    	for(int j = 0; j<Env.height()*Env.p_sub_res; j++){
+    		if(NarrowBand.narrowband[i][j])
+    			drawCell(i, j);
+    	}
+    	}
+    }
 }

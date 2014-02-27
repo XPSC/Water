@@ -10,16 +10,19 @@ import diewald_fluid.Fluid2D;
 public class Env {
 	private static Fluid2D fluid;
 	private static float t =  0.10f;                                                 //echantillonage temporelle de la simulation.
-	private static int cellsize = 6;                                                   //resolution de la discretisation spatiale de l'espace.
-	static int p_sub_res = 3;                                                //ratio donnant la resolution de l'isocontour (surface du fluide), qui est plus précise.
-	private static int l = 100;                                                        //largeur de l'espace de simulation
-	private static int h = 100;                                                        //hauteur de l'espace de simulation
+	private static int cellsize = 18;                                                   //resolution de la discretisation spatiale de l'espace.
+	static int p_sub_res = 3;  //ratio donnant la resolution de l'isocontour (surface du fluide), qui est plus précise.
+	static int p_cellsize = cellsize/p_sub_res;
+	private static int l = 40;                                                        //largeur de l'espace de simulation
+	private static int h = 40;                                                        //hauteur de l'espace de simulation
 	static Voxel[][] grille = new Voxel[h][l];                                                    //le cadrillage representant l'espace, chaque voxel etant une case, possedant des propriétés propres.
 	static Vect[][] grille_isosurf = new Vect[l*p_sub_res][h*p_sub_res];                                             //grille sur laquelle sera calculée la surface du fluide ( plus de precision)
 	static float[] dens_field;
 	static float[] velocity_fieldU;
 	static float[] velocity_fieldV;
 	
+	// Attention
+	// Pour afficher au bon endroit, il faut ajouter 1*cellsize
 	
 	// TO DO
 	//   

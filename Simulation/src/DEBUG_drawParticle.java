@@ -155,21 +155,21 @@ if ( mode == 1) fluid2d.removeObject(x, y);
 ///////// DEBUG
 
 
-//// Affiche croix
+////Affiche croix
 public void drawCross(int a, int b){
-	int x = a*cell_size;
-	int y = b*cell_size;
-	line(x-3, y, x+3, y);
-	line(x, y-3, x, y+3);
+stroke(255, 0, 0);
+int x = a*Env.p_cellsize+Env.cellSize();
+int y = b*Env.p_cellsize+Env.cellSize();
+line(x-3, y, x+3, y);
+line(x, y-3, x, y+3);
 }
 
 ////Affiche particule
 public void drawParticle(Particule particule){
-if(particule.isFree())
-	stroke(0, 0, 255);
 stroke(255, 0, 0);
-drawCross(particule.bigX(), particule.bigY());
+drawCross(particule.x, particule.y);
 }
+
 
 
 
