@@ -2,21 +2,41 @@ import java.util.LinkedList;
 
 
 public class Particles {
-   
-  //Contains both particles in the liquid surface and free particles (outside)
+   //Contains both particles in the liquid surface and free particles (outside)
    static LinkedList<Particule> particles = new LinkedList<Particule> (); 
    // Kd tree stucture is used occasionally 
    static MyKDTree particlesKD = new MyKDTree();
+   // contains also a boolean 2d-vector to know in O(1) if there's a particle in (x, y) 
+   static boolean[][] particlesVect;
+      
+   public static void init(){
+	   particlesVect = new boolean[Env.width()*Env.p_sub_res][Env.height()*Env.p_sub_res];
+	    for(int i = 0; i<Env.width()*Env.p_sub_res; i++){
+	    	for(int j = 0; j<Env.height()*Env.p_sub_res; j++){
+	    		NarrowBand.narrowband[i][j]=false;
+	    		}
+	    	}
+   }
    
-   public static void add(Particule p){
+   public static void add(Particule p) {
 	 		 particles.add(p);
+	 		 particlesVect[p.x][p.y] = true;
 	      }
    
    public static void remove(Particule p){
         particles.remove(p);
    }
    
- 
-
-    
+   /**
+    * add particles to cellList with frequency 1/p
+    */
+   // TO DO
+  public static void addParticlesRange(LinkedList<Voxel> cellList, int p){
+	  int i = 0;
+	  for (Voxel vox : cellList){
+		  if(i%p == 0)
+			 // add(new Particule(x, y));
+		  i++;
+	  }	  
+  }
 }

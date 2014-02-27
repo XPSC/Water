@@ -13,4 +13,11 @@
 
 public class Voxel {
       // à revoir
+	 int x;
+	 int y;
+	 
+	 public Voxel(int x, int y){
+		 this.x = x;
+		 this.y = y;
+	 }
 }

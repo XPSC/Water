@@ -15,6 +15,8 @@ public class Env {
 	static int p_cellsize = cellsize/p_sub_res;
 	private static int l = 40;                                                        //largeur de l'espace de simulation
 	private static int h = 40;                                                        //hauteur de l'espace de simulation
+	static int p_l =  l*p_sub_res;
+	static int p_h = h*p_sub_res;
 	static Voxel[][] grille = new Voxel[h][l];                                                    //le cadrillage representant l'espace, chaque voxel etant une case, possedant des propriétés propres.
 	static Vect[][] grille_isosurf = new Vect[l*p_sub_res][h*p_sub_res];                                             //grille sur laquelle sera calculée la surface du fluide ( plus de precision)
 	static float[] dens_field;
@@ -77,6 +79,12 @@ public class Env {
 		return dens_field[fluid.IDX(x, y)];
 	}
 	
-
+    // FOR DEBUGGING
+	public static boolean isInside(int x, int y){
+		return !((x<0) || (x>l-1) || (y<0) || (y>h-1)); 
+	}
+	public static boolean p_isInside(int x, int y){
+		return !((x<0) || (x>p_l-1) || (y<0) || (y>p_h-1)); 		
+	}
   
 }
