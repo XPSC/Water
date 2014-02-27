@@ -42,9 +42,7 @@ public class Env {
 	public static int cellSize(){
 	       return cellsize;
 		}
-	
-	
-	
+		
 	public static void calcField(){
 		vel_field = fluid.getBufferDensity_byRef(0);
 	}

@@ -17,7 +17,7 @@ public class main extends PApplet {
 
 	Fluid2D fluid;
 
-
+    
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setup() {
 	  size(window_size_x, window_size_y, JAVA2D); // P2D is slower, test it
@@ -48,6 +48,7 @@ public class main extends PApplet {
 	  fluid.update();
 	  image(fluid.getDensityMap(), 0, 0, width, height);
 	  //println(frameRate);
+	  DrawCross(20, 20);
 	}
 
 
@@ -136,6 +137,21 @@ if ( mode == 0) fluid2d.addObject(x, y);
 if ( mode == 1) fluid2d.removeObject(x, y); 
 }
 }
+}
+
+
+
+
+///////// DEBUG
+
+
+//// Affiche croix
+public void DrawCross(int a, int b){
+	stroke(255, 0, 0);
+	int x = a*cell_size;
+	int y = b*cell_size;
+	line(x-3, y, x+3, y);
+	line(x, y-3, x, y+3);
 }
 
 
