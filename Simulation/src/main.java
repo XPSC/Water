@@ -4,14 +4,14 @@ import processing.core.PApplet;
 
 public class main extends PApplet {
   //created from fluid2d_basic_cpu
-	
 
 
 
-	int  fluid_size_x = 100; 
-	int  fluid_size_y = 100;
 
-	int  cell_size    = 6;
+	int  fluid_size_x = Env.width(); 
+	int  fluid_size_y = Env.height();
+
+	int  cell_size    = Env.cellSize();
 	int  window_size_x = fluid_size_x  * cell_size + (cell_size * 2);
 	int  window_size_y = fluid_size_y  * cell_size + (cell_size * 2);
 
@@ -21,9 +21,10 @@ public class main extends PApplet {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setup() {
 	  size(window_size_x, window_size_y, JAVA2D); // P2D is slower, test it
-	  
+
 	  fluid = createFluidSolver();
 	  frameRate(60);
+	  Env.init(fluid);
 	}
 
 
@@ -31,8 +32,8 @@ public class main extends PApplet {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void draw() {
 	  background(255);
-
-	  float[] d = fluid.getBufferDensity_byRef(0);
+      Env.calcField();
+      float[] d = Env.getVelocityField();
 	  for(int i=0; i< fluid_size_x; i++){
 		  for(int j=0; j< fluid_size_y; j++){
 			 	  if( d[fluid.IDX(i, j)]>1){
@@ -54,7 +55,7 @@ public class main extends PApplet {
 	// createFluidSolver();
 	//
 	Fluid2D createFluidSolver() {
-	  
+
 	  Fluid2D fluid_tmp = new Fluid2D_CPU(this, fluid_size_x, fluid_size_y); // initialize de solver
 
 	  fluid_tmp.setParam_Timestep  ( 0.10f );
@@ -71,7 +72,7 @@ public class main extends PApplet {
 	  fluid_tmp.setObjectsColor    (1, 1, 1, 1); 
 	  return fluid_tmp;
 	}
-	
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //fluidInfluence();
 //
