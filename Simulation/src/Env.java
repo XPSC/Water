@@ -25,6 +25,7 @@ public class Env {
 	
 	// TO DO
 	//   
+	// Problèmes conditions limites particles
 	//  Faire distinction entre particules à la surface et eloignés de la surface (2 bandes ?)
 	// KDTree en double, mieux vaut en int
 	// attention décalages entre grille particule et grille diewald (interpolation bilinéaire ?)
