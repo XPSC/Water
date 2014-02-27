@@ -32,8 +32,8 @@ public class main extends PApplet {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void draw() {
 	  background(255);
-      Env.calcField();
-      float[] d = Env.getVelocityField();
+      Env.calcDensityField();
+      float[] d = Env.getDensityField();
 	  for(int i=0; i< fluid_size_x; i++){
 		  for(int j=0; j< fluid_size_y; j++){
 			 	  if( d[fluid.IDX(i, j)]>1){
@@ -59,7 +59,7 @@ public class main extends PApplet {
 
 	  Fluid2D fluid_tmp = new Fluid2D_CPU(this, fluid_size_x, fluid_size_y); // initialize de solver
 
-	  fluid_tmp.setParam_Timestep  ( 0.10f );
+	  fluid_tmp.setParam_Timestep  ( Env.timeStep() );
 	  fluid_tmp.setParam_Iterations( 16 );
 	  fluid_tmp.setParam_IterationsDiffuse(1);
 	  fluid_tmp.setParam_Viscosity ( 0.000001f );

@@ -16,7 +16,7 @@ import diewald_fluid.Fluid2D_CPU;
 
 public class Env {
 	private static Fluid2D fluid;
-	private static double t =  0.3;                                                 //echantillonage temporelle de la simulation.
+	private static float t =  0.10f;                                                 //echantillonage temporelle de la simulation.
 	private static int cellsize = 6;                                                   //resolution de la discretisation spatiale de l'espace.
 	static int p_sub_res = 3;                                                //ratio donnant la resolution de l'isocontour (surface du fluide), qui est plus prÃ©cise.
 	private static int l = 100;                                                        //largeur de l'espace de simulation
@@ -25,10 +25,21 @@ public class Env {
 	static Vect[][] grille_isosurf = new Vect[l*p_sub_res][h*p_sub_res];                                             //grille sur laquelle sera calculÃ©e la surface du fluide ( plus de precision)
 	static LinkedList<Particule> liste_particules;                       //liste des particules prÃ©sentes dans la simulation, utile pour calculer l'Ã©volution de leurs positions.
 	static KDTree kdTree;
-	static float[] vel_field;
+	static float[] dens_field;
 	
+	
+	// TO DO
+	//   
+	//  Faire distinction entre particules à la surface et eloignés de la surface (2 bandes ?)
+	// KDTree en double, mieux vaut en int
+	// attention décalages entre grille particule et grille diewald (interpolation bilinéaire ?)
+ 	
 	public static void init(Fluid2D fluidref){
 		fluid = fluidref; 
+	}
+	
+	public static float timeStep(){
+		return t;
 	}
 	
 	public static int width(){
@@ -43,12 +54,17 @@ public class Env {
 	       return cellsize;
 		}
 		
-	public static void calcField(){
-		vel_field = fluid.getBufferDensity_byRef(0);
+	public static void calcDensityField(){
+		dens_field = fluid.getBufferDensity_byRef(0);
 	}
 	
-	public static float[] getVelocityField() {
-		return vel_field;
+	public static float[] getDensityField() {
+		return dens_field;
+	}
+	
+	
+	public static float getVelocityValue(int x, int y){
+		return vel_field[fluid.IDX(x, y)];
 	}
 	
 	public static void ConstructKdTree() { // creates a two-dimensional search tree of the particle list

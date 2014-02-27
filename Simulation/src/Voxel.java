@@ -12,8 +12,5 @@
 
 
 public class Voxel {
-	Vitesse vhg, vhd, vvb, vvh;                           //abr. pour vitesse horizontale gauche etc...       Voxel.vhd = Voxel.droit.vhg
-	double pression;
-	Voxel gauche, droit, bas, haut;
-	boolean empty;                                        // si empty = true on peut mettre du liquide dans la case, sinon c'est un "mur".
+      // à revoir
 }
