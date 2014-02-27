@@ -30,6 +30,7 @@ public class Env {
  	
 	public static void init(Fluid2D fluidref){
 		fluid = fluidref; 
+		NarrowBand.init();
 	}
 	
 	public static float timeStep(){

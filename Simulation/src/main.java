@@ -161,6 +161,8 @@ stroke(255, 0, 0);
 drawCross(particule.bigX(), particule.bigY());
 }
 
+//// Affiche un élément de la grille
+
 
 
 }
