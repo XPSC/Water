@@ -32,7 +32,13 @@ public class Env {
 	//  Faire distinction entre particules à la surface et eloignés de la surface (2 bandes ?)
 	// KDTree en double, mieux vaut en int
 	// attention décalages entre grille particule et grille diewald (interpolation bilinéaire ?)
- 	
+ 	// for level set method, see http://cs.au.dk/~tgk/courses/LevelSets/LevelSet.pdf
+	// 1. Bilinear interpolation (level set/particles)
+	// 2. Create narrow band with queue -> only add new particles and calculate phi directly with particles
+	// Is phi defined only by particles sufficient ? (normally phi is a signed distance function from water surface, which is not) maybe must use normalisation
+	// example with fast marching method : http://www.ann.jussieu.fr/~frey/papers/levelsets/Sethian%20J.A.,%20Evolution,%20implementation%20and%20application%20of%20level%20sets%20and%20fast%20marching%20methods%20for%20advancing%20fronts.pdf
+	// Runge Kutta narrow band
+	
 	public static void init(Fluid2D fluidref){
 		fluid = fluidref; 
 		NarrowBand.init();
