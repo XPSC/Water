@@ -3,7 +3,8 @@ import java.util.Queue;
 
 /*
  * NarrowBand is the band around the surface where the level set method (phi calculation, runge kutta, particles) is applied
- * It is represented by a boolean array and a list
+ * It is represented by a boolean array and a list.
+ * To construct the narrow band with Manhattan distance, we use a queue from the phi = 0 line (right ?)
  */
 public class NarrowBand {
    static boolean[][] narrowband;
