@@ -37,6 +37,7 @@ public class Env {
 	// 2. Create narrow band with queue -> only add new particles and calculate phi directly with particles
 	// Is phi defined only by particles sufficient ? (normally phi is a signed distance function from water surface, which is not) maybe must use normalisation
 	// example with fast marching method : http://www.ann.jussieu.fr/~frey/papers/levelsets/Sethian%20J.A.,%20Evolution,%20implementation%20and%20application%20of%20level%20sets%20and%20fast%20marching%20methods%20for%20advancing%20fronts.pdf
+	// example with fast iterative method (simpler) : A Fast Iterative Method for Eikonal Equations
 	// Runge Kutta narrow band
 	
 	public static void init(Fluid2D fluidref){
