@@ -20,4 +20,8 @@ public class Voxel {
 		 this.x = x;
 		 this.y = y;
 	 }
+	 
+	 public Voxel smallGridCoordToBigGridCoord(){
+		 return new Voxel(x/Env.p_sub_res, y/Env.p_sub_res);
+	 }
 }
