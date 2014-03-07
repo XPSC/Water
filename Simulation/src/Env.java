@@ -43,7 +43,11 @@ public class Env {
 	//* delete one particle when same coordinates (redundant)
 	
 	public static void init(Fluid2D fluidref){
+		//init fluid simul
 		fluid = fluidref; 
+		//init surface
+		Init.Init();
+		Particles.init();
 		NarrowBand.init();
 	}
 	

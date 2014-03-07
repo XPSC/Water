@@ -11,6 +11,9 @@ public class NarrowBand {
    static LinkedList<Voxel> listvoxels;
    static Queue<Voxel> queue;
    
+   /*
+    * Initialization after Init is initialized (the surface at t = 0 must be defined)
+    */
    public static void init(){
 	   narrowband = new boolean[Env.width()*Env.p_sub_res][Env.height()*Env.p_sub_res];
 	    for(int i = 0; i<Env.width()*Env.p_sub_res; i++){
@@ -18,6 +21,10 @@ public class NarrowBand {
 	    		NarrowBand.narrowband[i][j]=false;
 	    		}
 	    	}
+	    
+	    for(Voxel voxel : Init.getInitSurface()){
+	    	narrowband[voxel.x][voxel.y]=true;
+	    }
    }
    
    

@@ -16,17 +16,20 @@ public class DEBUG_drawParticlePlusDrawGrid extends PApplet {
 
 	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setup() {
-		for (int i = 0; i < fluid_size_x; i = i + 10) {
-			for (int j = 0; j < fluid_size_y; j = j + 10) {
-				new Particule(i * Env.p_sub_res, j * Env.p_sub_res);
-			}
-		}
+
 
 		size(window_size_x, window_size_y, JAVA2D); // P2D is slower, test it
 
 		fluid = createFluidSolver();
 		frameRate(60);
-		Env.init(fluid);
+		Env.init(fluid);	
+		
+		
+		for (int i = 0; i < fluid_size_x; i = i + 10) {
+			for (int j = 0; j < fluid_size_y; j = j + 10) {
+				new Particule(i * Env.p_sub_res, j * Env.p_sub_res);
+			}
+		}
 	}
 
 	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,12 +176,13 @@ drawCross(particule.x, particule.y);
 	// // Affiche un élément de la grille (petite)
 	public void drawCell(int x, int y) {
 		int a = Math.round(Env.cellSize() / Env.p_sub_res);
-		//rect(a * x, a * y, a, a);
-		point(x*a+Env.cellSize(), y*a+Env.cellSize());
+		rect(a * x+Env.cellSize(), a * y + Env.cellSize(), a, a);
+		//point(x*a+Env.cellSize(), y*a+Env.cellSize());
 	}
 
 	public void drawNarrowBand() {
 		stroke(0, 0, 255);
+		fill(0,0,0,0);
 		for (int i = 0; i < Env.width() * Env.p_sub_res; i++) {
 			for (int j = 0; j < Env.height() * Env.p_sub_res; j++) {
 				if (NarrowBand.narrowband[i][j])
