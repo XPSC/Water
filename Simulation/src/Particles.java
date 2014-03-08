@@ -35,7 +35,7 @@ public class Particles {
 	  int i = 0;
 	  for (Voxel vox : cellList){
 		  if(i%p == 0)
-			 // add(new Particule(x, y));
+			add(new Particule(vox.x, vox.y));
 		  i++;
 	  }	  
   }

@@ -172,21 +172,26 @@ drawCross(particule.x, particule.y);
 }
 
 ////Affiche un élément de la grille (grande)
-public void drawCell(int x, int y){
+public void drawCell(int x, int y, int param){
+switch(param){
+case 1:stroke(255, 255, 255); break;
+case 2: stroke(255, 0, 0); break;
+case 3: stroke(0, 255, 0); break;
+case 4 : stroke(0, 0, 255); break;
+}
 int a = Math.round(Env.cellSize());
-rect(a*x+1, a*y+1, a, a);
+rect(a*(x+1), a*(y+1), a-1, a-1);
 //point(x*a+1, y*a+1);
 }
 
 public void drawNarrowBand(){
-	stroke(0, 0, 255);
-	fill(0, 0, 0, 0);
-    for(int i = 0; i<Env.width(); i++){
-    	for(int j = 0; j<Env.height(); j++){
-    		if(NarrowBand.narrowband[i][j])
-    			drawCell(i, j);
-    	}
-    	}
-    }
+
+fill(0, 0, 0, 0);
+for(int i = 0; i<Env.width(); i++){
+	for(int j = 0; j<Env.height(); j++){
+		drawCell(i, j, NarrowBand.narrowband[i][j]);
+	}
+	}
+}
 
 }

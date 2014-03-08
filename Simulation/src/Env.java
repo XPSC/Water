@@ -10,8 +10,8 @@ import diewald_fluid.Fluid2D;
 public class Env {
 	private static Fluid2D fluid;
 	private static float t =  0.10f;                                                 //echantillonage temporelle de la simulation.
-	private static int cellsize = 18;                                                   //resolution de la discretisation spatiale de l'espace.
-	static int p_sub_res = 3;  //ratio donnant la resolution de l'isocontour (surface du fluide), qui est plus prÃ©cise.
+	private static int cellsize = 20;                                                   //resolution de la discretisation spatiale de l'espace.
+	static int p_sub_res = 5;  //ratio donnant la resolution de l'isocontour (surface du fluide), qui est plus prÃ©cise.
 	static int p_cellsize = cellsize/p_sub_res;
 	private static int l = 40;                                                        //largeur de l'espace de simulation
 	private static int h = 40;                                                        //hauteur de l'espace de simulation
@@ -22,12 +22,20 @@ public class Env {
 	static float[] dens_field;
 	static float[] velocity_fieldU;
 	static float[] velocity_fieldV;
+	static int p_freq = 6; //frequency of apparition of particles below the surface (in the narrow band) after initialization
 	
 	// Attention
 	// Pour afficher au bon endroit, il faut ajouter 1*cellsize
 	
+	
 	// TO DO
-	//   
+	//
+	// préciser narrow band (phi, particules)
+	// stabilité, robustesse
+	//
+	//  amélioration : interpolations -> for particles, for boundaries conditions ? for the p solver
+	//
+	// Level set (thins are maybe still to be done : )
 	// Problèmes conditions limites particles
 	//  Faire distinction entre particules à la surface et eloignés de la surface (2 bandes ?)
 	// KDTree en double, mieux vaut en int
@@ -49,6 +57,9 @@ public class Env {
 		Init.Init();
 		Particles.init();
 		NarrowBand.init();
+		
+		//add particles below init surfaces
+		Particles.addParticlesRange(NarrowBand.narrowBandToList(), p_freq);
 	}
 	
 	public static float timeStep(){
