@@ -24,6 +24,10 @@ public class Env {
 	static float[] velocity_fieldV;
 	static int p_freq = 6; //frequency of apparition of particles below the surface (in the narrow band) after initialization
 	
+	static int[][] p_order_x = new int[p_sub_res][p_sub_res]; //util (see below)
+	static int[][] p_order_y = new int[p_sub_res][p_sub_res]; 
+	
+	static double threshold_phi = 5;
 	// Attention
 	// Pour afficher au bon endroit, il faut ajouter 1*cellsize
 	
@@ -53,6 +57,15 @@ public class Env {
 	public static void init(Fluid2D fluidref){
 		//init fluid simul
 		fluid = fluidref; 
+		
+		//util : init p_order
+		for(int ki = 0; ki<p_sub_res; ki++){
+			for(int kj = 0; kj<p_sub_res; kj++){
+				p_order_x[ki][kj]=ki;
+				p_order_y[ki][kj]=kj;
+			}
+		}		
+		
 		//init surface
 		Init.Init();
 		Particles.init();
@@ -60,6 +73,10 @@ public class Env {
 		
 		//add particles below init surfaces
 		Particles.addParticlesRange(NarrowBand.narrowBandToList(), p_freq);
+		
+		//init and calculate phi
+		Phi.init();
+		Particles.calcPhi();
 	}
 	
 	public static float timeStep(){
@@ -102,6 +119,15 @@ public class Env {
 	public static float getDensityValue(int x, int y){
 		return dens_field[fluid.IDX(x, y)];
 	}
+	
+	// Util
+	
+	// shuffleOrder
+	// shuffle the ordrer of treatment for the subdivisions of a cell
+	
+	//Knuth shuffle
+	
+   // to do
 	
     // FOR DEBUGGING
 	public static boolean isInside(int x, int y){

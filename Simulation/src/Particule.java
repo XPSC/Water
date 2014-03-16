@@ -101,6 +101,7 @@ public class Particule {
         // if (x, y) outside, we do a reflexion
         
         //correction
+        //à revoir p-ê
         position.x -= 3;
         position.y -= 3;
         
@@ -118,7 +119,7 @@ public class Particule {
         
         position.x += 3;
         position.y += 3;
-        
+       
         x = (int) Math.floor(position.x);
         y = (int) Math.floor(position.y);
         

@@ -5,7 +5,7 @@ public class Particles {
    //Contains both particles in the liquid surface and free particles (outside)
    static LinkedList<Particule> particles = new LinkedList<Particule> (); 
    // Kd tree stucture is used occasionally 
-   static MyKDTree particlesKD = new MyKDTree();
+   static MyKDTree particlesKD;
    // contains also a boolean 2d-vector to know in O(1) if there's a particle in (x, y) 
    static boolean[][] particlesVect;
       
@@ -39,4 +39,17 @@ public class Particles {
 		  i++;
 	  }	  
   }
+  
+  private static void toKDTree(){
+	  particlesKD = new MyKDTree();
+	  particlesKD.ConstructKdTree(particles);
+  }  
+  
+  public static void calcPhi(){
+	  //à chaque pas reconstruire l'arbre ??
+	  toKDTree();
+	  Phi.calcPhi(particlesKD, Env.threshold_phi);
+  }
+  
+  
 }

@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 import diewald_fluid.Fluid2D;
 import diewald_fluid.Fluid2D_CPU;
 import processing.core.PApplet;
@@ -53,12 +55,13 @@ public class DEBUG_drawParticlePlusDrawGrid extends PApplet {
 		image(fluid.getDensityMap(), 0, 0, width, height);
 		// println(frameRate);
 		Env.calcVelocityField();
-
+        Particles.calcPhi();
 		for (Particule particule : Particles.particles) {
 			particule.update();
 			drawParticle(particule);
 		}
 		drawNarrowBand();
+		drawLine(Phi.getZeroLine());
 	}
 
 	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +174,27 @@ stroke(255, 0, 0);
 drawCross(particule.x, particule.y);
 }
 
+public void drawLine(LinkedList<LinkedList<Vect>> listVect){
+	int a = Env.p_cellsize;
+	int x1 = -5;
+	int x2;
+	int y1 = 0;
+	int y2;
+	for (LinkedList<Vect> liste : listVect){
+		x1=-5;
+		for (Vect vect : liste){
+			x2 = (int) vect.x*a;
+			y2 = (int) vect.y*a;
+			// if x1==-5, x1 y1 has not been defined yet
+			stroke(255, 255, 255);
+			if(x1 != -5)
+				line(x1, y1, x2, y2);
+			x1 = x2;
+			y1 = y2;
+		}
+	}
+}
+
 ////Affiche un élément de la grille (grande)
 public void drawCell(int x, int y, int param){
 switch(param){
@@ -180,13 +204,20 @@ case 3: stroke(0, 255, 0); break;
 case 4 : stroke(0, 0, 255); break;
 }
 int a = Math.round(Env.cellSize());
+int b = Math.round(Env.cellSize()/4);
+fill(0, 0, 0, 0);
 rect(a*(x+1), a*(y+1), a-1, a-1);
 //point(x*a+1, y*a+1);
+
+//opt : print out phi
+fill(200, 200, 255, 150);
+textSize(16);
+text((int) Math.round(Phi.phi[x*Env.p_sub_res][y*Env.p_sub_res]/10), a*(x+1)+b, a*(y+1)+3*b);
 }
 
 public void drawNarrowBand(){
 
-fill(0, 0, 0, 0);
+
 for(int i = 0; i<Env.width(); i++){
 	for(int j = 0; j<Env.height(); j++){
 		drawCell(i, j, NarrowBand.narrowband[i][j]);

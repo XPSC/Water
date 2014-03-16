@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-/* 
+/** 
  * Narrowband divides the simulation (big) grid in 4 categories of cells :
  *  1: air cells
  *  2 : surface (considered as liquid cells, but with boundaries conditions)
@@ -19,7 +19,7 @@ public class NarrowBand {
 	// static LinkedList<Voxel> listvoxels;
 	// static Queue<Voxel> queue;
 
-	/*
+	/**
 	 * Initialization after Init is initialized (the surface at t = 0 must be
 	 * defined)
 	 */
