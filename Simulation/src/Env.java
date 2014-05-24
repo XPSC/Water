@@ -1,5 +1,7 @@
 import diewald_fluid.Fluid2D;
 
+import java.util.LinkedList;
+
 //++  Cette classe repr√©sente l'environnement dans lequel √©volue le fluide. ++//
 //++  Elle contient donc les constantes physiques (g, viscosit√© etc...), les ++//
 //++  constantes li√©es √† la simulation (resolution du quadrillage de        ++//
@@ -28,22 +30,27 @@ public class Env {
 	static int[][] p_order_y = new int[p_sub_res][p_sub_res]; 
 	
 	static double threshold_phi = 5;
+	
+	//narrowband thickness
+	static int bandThickness = 4; 
+	static LinkedList<Voxel> narrowband;
+	
 	// Attention
 	// Pour afficher au bon endroit, il faut ajouter 1*cellsize
 	
 	
 	// TO DO
 	//
-	// prÈciser narrow band (phi, particules)
-	// stabilitÈ, robustesse
+	// prÔøΩciser narrow band (phi, particules)
+	// stabilitÔøΩ, robustesse
 	//
-	//  amÈlioration : interpolations -> for particles, for boundaries conditions ? for the p solver
+	//  amÔøΩlioration : interpolations -> for particles, for boundaries conditions ? for the p solver
 	//
 	// Level set (thins are maybe still to be done : )
-	// ProblËmes conditions limites particles
-	//  Faire distinction entre particules ‡ la surface et eloignÈs de la surface (2 bandes ?)
+	// ProblÔøΩmes conditions limites particles
+	//  Faire distinction entre particules ÔøΩ la surface et eloignÔøΩs de la surface (2 bandes ?)
 	// KDTree en double, mieux vaut en int
-	// attention dÈcalages entre grille particule et grille diewald (interpolation bilinÈaire ?)
+	// attention dÔøΩcalages entre grille particule et grille diewald (interpolation bilinÔøΩaire ?)
  	// for level set method, see http://cs.au.dk/~tgk/courses/LevelSets/LevelSet.pdf
 	// 1. Bilinear interpolation (level set/particles)
 	// 2. Create narrow band with queue -> only add new particles and calculate phi directly with particles
@@ -54,29 +61,38 @@ public class Env {
 	// Runge Kutta narrow band
 	//* delete one particle when same coordinates (redundant)
 	
-	public static void init(Fluid2D fluidref){
+	public static LinkedList<Voxel> init(Fluid2D fluidref){
 		//init fluid simul
 		fluid = fluidref; 
-		
-		//util : init p_order
-		for(int ki = 0; ki<p_sub_res; ki++){
-			for(int kj = 0; kj<p_sub_res; kj++){
-				p_order_x[ki][kj]=ki;
-				p_order_y[ki][kj]=kj;
-			}
-		}		
 		
 		//init surface
 		Init.Init();
 		Particles.init();
-		NarrowBand.init();
+		narrowband = NarrowBand.init(bandThickness);
+		
+		LinkedList<Voxel> temp = new LinkedList<Voxel>();
+		
+		for(Voxel v : narrowband){
+			//XXX Add 2 ?
+			if(NarrowBand.cellState[v.x][v.y] == 3){
+				for(int ki = 0; ki<p_sub_res; ki++){
+					for(int kj = 0; kj<p_sub_res; kj++){
+						temp.add(new Voxel(v.x*p_sub_res+ki, v.y*p_sub_res+kj));
+					}
+				}
+				temp.add(v);
+			}
+		}
 		
 		//add particles below init surfaces
-		Particles.addParticlesRange(NarrowBand.narrowBandToList(), p_freq);
+		Particles.addParticlesRange(temp, p_freq);
+		
+		
 		
 		//init and calculate phi
 		Phi.init();
-		Particles.calcPhi();
+		Particles.calcPhi(temp);
+		return narrowband;
 	}
 	
 	public static float timeStep(){

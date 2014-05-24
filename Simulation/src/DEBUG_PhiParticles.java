@@ -1,8 +1,8 @@
-import java.util.LinkedList;
-
 import diewald_fluid.Fluid2D;
 import diewald_fluid.Fluid2D_CPU;
 import processing.core.PApplet;
+
+import java.util.LinkedList;
 
 public class DEBUG_PhiParticles extends PApplet {
 	// created from fluid2d_basic_cpu
@@ -55,7 +55,7 @@ public class DEBUG_PhiParticles extends PApplet {
 		image(fluid.getDensityMap(), 0, 0, width, height);
 		// println(frameRate);
 		Env.calcVelocityField();
-        Particles.calcPhi();
+        Particles.calcPhi(Env.narrowband);
 		for (Particule particule : Particles.particles) {
 			particule.update();
 			drawParticle(particule);
@@ -195,7 +195,7 @@ public void drawLine(LinkedList<LinkedList<Vect>> listVect){
 	}
 }
 
-////Affiche un élément de la grille (grande)
+////Affiche un ï¿½lï¿½ment de la grille (grande)
 public void drawCell(int x, int y, int param){
 switch(param){
 case 1:stroke(255, 255, 255); break;
@@ -221,7 +221,7 @@ public void drawNarrowBand(){
 
 for(int i = 0; i<Env.width(); i++){
 	for(int j = 0; j<Env.height(); j++){
-		drawCell(i, j, NarrowBand.narrowband[i][j]);
+		drawCell(i, j, NarrowBand.cellState[i][j]);
 	}
 	}
 }

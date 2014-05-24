@@ -45,10 +45,10 @@ public class Particles {
 	  particlesKD.ConstructKdTree(particles);
   }  
   
-  public static void calcPhi(){
-	  //à chaque pas reconstruire l'arbre ??
+  public static void calcPhi(LinkedList<Voxel> narrowband){
+	  //ï¿½ chaque pas reconstruire l'arbre ??
 	  toKDTree();
-	  Phi.calcPhi(particlesKD, Env.threshold_phi);
+	  Phi.calcPhi(particlesKD, Env.threshold_phi, narrowband);
   }
   
   

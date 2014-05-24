@@ -40,6 +40,7 @@ public class main extends PApplet {
 	  for(int i=0; i< fluid_size_x; i++){
 		  for(int j=0; j< fluid_size_y; j++){
 			 	  if( d[fluid.IDX(i, j)]>1){
+			 		  //XXX
 			 fluid.addVelocity(i, j, 0, d[fluid.IDX(i, j)]*0.01F);
 			 	  }
 		 }
@@ -207,7 +208,7 @@ public void drawNarrowBand(){
 	fill(0, 0, 0, 0);
     for(int i = 0; i<Env.width(); i++){
     	for(int j = 0; j<Env.height(); j++){
-    		drawCell(i, j, NarrowBand.narrowband[i][j]);
+    		drawCell(i, j, NarrowBand.cellState[i][j]);
     	}
     	}
     }
