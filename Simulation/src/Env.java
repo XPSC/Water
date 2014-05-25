@@ -32,7 +32,7 @@ public class Env {
 	static double threshold_phi = 5;
 	
 	//narrowband thickness
-	static int bandThickness = 4; 
+	static int bandThickness = 3;
 	static LinkedList<Voxel> narrowband;
 	
 	// Attention
@@ -75,8 +75,8 @@ public class Env {
 		for(Voxel v : narrowband){
 			//XXX Add 2 ?
 			if(NarrowBand.cellState[v.x][v.y] == 3){
-				for(int ki = 0; ki<p_sub_res; ki++){
-					for(int kj = 0; kj<p_sub_res; kj++){
+				for(int ki = 0; ki< p_sub_res; ki++){
+					for(int kj = 0; kj< p_sub_res; kj++){
 						temp.add(new Voxel(v.x*p_sub_res+ki, v.y*p_sub_res+kj));
 					}
 				}

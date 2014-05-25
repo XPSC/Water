@@ -14,6 +14,28 @@ public class Phi {
 		}
     	
     }
+
+    //region Gaussion blur
+    public static int[][] KERNEL = new int[][]{{1, 4, 7, 4, 1}, {4, 16, 26, 16, 4}, {7, 26, 41, 26, 7}, {4, 16, 26, 16, 4}, {1, 4, 7, 4, 1}};
+    public static double DIVISOR = 273.0;
+    public static int RADIUS = 3;
+    public static void Blur()
+    {
+        double[][] blur = new double[Env.p_l][Env.p_h];
+
+        for (int i = RADIUS - 1; i < Env.p_l - RADIUS; i++){
+            for (int j = RADIUS - 1; j < Env.p_h - RADIUS; j++) {
+                for (int k = -RADIUS + 1; k < RADIUS; k++) {
+                    for (int l = -RADIUS + 1; l < RADIUS; l++) {
+                        blur[i][j] += phi[i + k][j + l] * KERNEL[RADIUS - k - 1][RADIUS - l - 1];
+                    }
+                }
+                blur[i][j] /= DIVISOR;
+            }
+        }
+        phi = blur;
+    }
+    //endregion Gaussian blur
     
     @SuppressWarnings("static-access")
     /**
@@ -34,6 +56,7 @@ public class Phi {
 				}
 			}
     	}
+        Blur();
 		///// DEBUG !!!!!
 		modifyBorders();
 		calcZeroLine();
@@ -56,8 +79,6 @@ public class Phi {
     public static void calcZeroLine(){
     	MarchingSquareSuperLisse m = new MarchingSquareSuperLisse(phi, 0);
 		zeroLine = m.doMarch();
-		LinkedList<LinkedList<Vect>> nZeroLine = new LinkedList<LinkedList<Vect>>();
-		LinkedList<Vect> liste = new LinkedList<Vect>();
 		for(LinkedList<Vect> l : zeroLine){
 			rec_aux(l);
 		}
